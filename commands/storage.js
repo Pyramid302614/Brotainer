@@ -9,6 +9,7 @@ module.exports = {
         for(const command of commands) {
             if(command.data.name == name) return command;
         }
-    }
+    },
+    all: commands
     
 }
