@@ -1,12 +1,13 @@
 const storage = require("./storage.js");
 const tests = require("./tests.js");
-const BROT = require("../brotainer.js");
-const { MessageFlags } = require("../node_modules/discord-api-types/v10.js");
+const BROTSTR = require("../storage.js");
+
+const { MessageFlags } = require("discord.js");
 
 module.exports = {
     async onInteraction(interaction) {
 
-        if(BROT.COMMANDS) {
+        if(BROTSTR.COMMANDS) {
 
             if(interaction.isChatInputCommand()) {
 

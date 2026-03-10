@@ -17,7 +17,7 @@ BROT.setupCommandTests(
     [
         BROT.TEST__SLOWMODE_CHECK,
         { name: "Admin check", run: (interaction) => { if(BROT.admins.includes(interaction.user.id)) pass = "override:true"; }},
-        { name: "GV-ERR Channel check", run: (interaction) => { return (interaction.channel.id == "1404112649066774579")} }
+        { name: "GV-ERR Channel check", run: (interaction) => { return (interaction.channel.id != "1404112649066774579")} }
     ],
     (interaction,results) => {
         if(!results["GV-ERR Channel check"]) interaction.reply("You cannot message here!");
@@ -26,9 +26,9 @@ BROT.setupCommandTests(
 );
 
 client.on("clientReady",() => {
-    console.log("ready");
+    BROT.log("ready");
 });
 
 BROT
-    .setToken(require("./config.json"))
+    .setToken(require("./config.json").token)
     .login(client);

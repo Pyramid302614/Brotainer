@@ -1,3 +1,5 @@
+const { PermissionFlagsBits } = require("discord.js");
+
 module.exports = {
 
     tests: [],
@@ -30,23 +32,24 @@ module.exports = {
 
     async slowmode_check(interaction) {
 
-        const member = await interaction.guild.members.fetch(interaction.user.id);
-        if(member.permissions.has(PermissionFlagsBits.BypassSlowmode)) return 1;
+        try {
+            const member = await interaction.guild.members.fetch(interaction.user.id);
+            if(member.permissions.has(PermissionFlagsBits.BypassSlowmode)) return 1;
 
-        const slowmode = interaction.channel.rateLimitPerUser; // gives seconds
-        const messages = await interaction.channel.messages.fetch();
+            const slowmode = interaction.channel.rateLimitPerUser; // gives seconds
+            const messages = await interaction.channel.messages.fetch();
 
-        const interactionTimestamp = Math.floor(interaction.createdTimestamp/1000);
+            const interactionTimestamp = Math.floor(interaction.createdTimestamp/1000);
 
-        var lastMessageTimestamp = 0;
-        for(const messageEntry of messages) {
-            const message = messageEntry[1];
-            if(message.author == interaction.author && lastMessageTimestamp < interactionTimestamp) lastMessageTimestamp = Math.floor(message.createdTimestamp/1000);
+            var lastMessageTimestamp = 0;
+            for(const messageEntry of messages) {
+                const message = messageEntry[1];
+                if(message.author == interaction.author && lastMessageTimestamp < interactionTimestamp) lastMessageTimestamp = Math.floor(message.createdTimestamp/1000);
+                
+            }
             
-        }
-        
-        return (interactionTimestamp > lastMessageTimestamp + slowmode)?1:0;
-
+            return (interactionTimestamp > lastMessageTimestamp + slowmode)?1:0;
+        } catch(ignored) { return false; }
     }
 
 }

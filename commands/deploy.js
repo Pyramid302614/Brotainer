@@ -11,10 +11,10 @@ module.exports = {
         ConsoleGateway.out("[Brotainer:Commands:Deploy] Deploying application (/) commands....");
 
         await new Promise(resolve => setInterval(() => {
-            if(BROT.token && client.user) resolve();
+            if(BROT.token() && client.user) resolve();
         }),1000);
 
-        const rest = new REST({ version: '10' }).setToken(BROT.token);
+        const rest = new REST({ version: '10' }).setToken(BROT.token());
 
         var all_data = [];
         for(const command of storage.all) {

@@ -1,21 +1,23 @@
+const STORAGE = require("./storage.js");
+
 module.exports = {
+    
+    CONSOLE_RIGHTS: (v) => { if(v) STORAGE.CONSOLE_RIGHTS = v; else return STORAGE.CONSOLE_RIGHTS },
 
-    CONSOLE_RIGHTS: true,
+    COMMANDS: (v) => { if(v) STORAGE.COMMANDS = v; else return STORAGE.COMMANDS },
+    EVENTS: (v) => {  if(v) STORAGE.EVENTS = v; else return STORAGE.EVENTS },
+    CONSOLE_SYNC: (v) => { if(v) STORAGE.CONSOLE_SYNC = v; else return STORAGE.CONSOLE_SYNC },
 
-    COMMANDS: false,
-    EVENTS: true,
-    CONSOLE_SYNC: false,
+    token: (v) => { if(v) STORAGE.token = v; else return STORAGE.token },
 
-    token: null,
-
-    admins: [],
+    admins: (v) => { if(v) STORAGE.admins = v; else return STORAGE.admins },
 
     setAdmins(admins) {
-        this.admins = admins;
+        STORAGE.admins = admins;
     },
 
     setupCommands(client,dir,defaultOnError) {
-        this.COMMANDS = true;
+        STORAGE.COMMANDS = true;
         if(dir) require("./commands/load.js").traverse(process.cwd()+"/"+dir);
         for(let i = 0; i < require("./commands/storage.js").all.length; i++) {
             if(!require("./commands/storage.js").all[i].onerror) require("./commands/storage.js").all[i].onerror = defaultOnError;
@@ -31,19 +33,22 @@ module.exports = {
     TEST__SLOWMODE_CHECK: { name: "Slowmode Check", run: require("./commands/tests.js").slowmode_check },
 
     setupEventsDir(client,dir) {
-        this.EVENTS = true;
+        STORAGE.EVENTS = true;
     },
 
     setupConsoleSync(client,guild,channel) {
-        this.CONSOLE_SYNC = true;
+        thSTORAGEis.CONSOLE_SYNC = true;
     },
 
     setToken(token) {
-        this.token = token;
+        STORAGE.token = token;
         return this;
     },
     login(client) {
-        client.login(this.token);
+        client.login(STORAGE.token);
+    },
+    log(msg) {
+        require("./console/gateway.js").out(msg);
     }
     
 } 
