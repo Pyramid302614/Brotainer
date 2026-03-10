@@ -22,22 +22,24 @@ module.exports = {
         for(let i = 0; i < require("./commands/storage.js").all.length; i++) {
             if(!require("./commands/storage.js").all[i].onerror) require("./commands/storage.js").all[i].onerror = defaultOnError;
         }
-        if(client) client.on("interactionCreate",require("./commands/events.js").onInteraction);
+        if(client) client.on("interactionCreate",require("./commands/hook.js").onInteraction);
         require("./commands/deploy.js").deploy(client);
     },
-    ONERROR__ORDINARY_ONERROR: require("./commands/events.js").ORDINARY_ONERROR,
+    ONERROR__ORDINARY_ONERROR: require("./commands/hook.js").ORDINARY_ONERROR,
     setupCommandTests(tests,onfail) {
         require("./commands/tests.js").tests = tests;
         if(onfail) require("./commands/tests.js").onfail = onfail;
     },
     TEST__SLOWMODE_CHECK: { name: "Slowmode Check", run: require("./commands/tests.js").slowmode_check },
 
-    setupEventsDir(client,dir) {
+    setupEvents(client,dir) {
         STORAGE.EVENTS = true;
+        require("./events/load.js").traverse
+        require("./events/hook.js").setupEvents(client);
     },
 
     setupConsoleSync(client,guild,channel) {
-        thSTORAGEis.CONSOLE_SYNC = true;
+        STORAGE.CONSOLE_SYNC = true;
     },
 
     setToken(token) {
@@ -50,5 +52,4 @@ module.exports = {
     log(msg) {
         require("./console/gateway.js").out(msg);
     }
-    
 } 

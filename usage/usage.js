@@ -25,6 +25,8 @@ BROT.setupCommandTests(
     }
 );
 
+BROT.setupEvents(client);
+
 client.on("clientReady",() => {
     BROT.log("ready");
 });
